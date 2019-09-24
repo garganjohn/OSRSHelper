@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "ur it";
     private ImageView imageView;
     private Button testBtn;
+    private EditText itemInput;
+    private String itemToBeSearched;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,26 +32,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         imageView = findViewById(R.id.whip_pic);
         testBtn = findViewById(R.id.test_btn);
+        itemInput = findViewById(R.id.item_input);
 
-        makeCall();
 
         testBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeCall();
+                itemToBeSearched = itemInput.getText().toString();
+                makeCall(itemToBeSearched);
             }
         });
 
     }
-    public void makeCall(){
+    public void makeCall(String query){
         Retrofit retrofit = GESingleton.getINSTANCE();
-        Call<GEModel> call = retrofit.create(GEService.class).getWhip();
+        Call<GEModel> call = retrofit.create(GEService.class).getWhip(query);
         Log.d(TAG, "onCreate: " + call.request());
         call.enqueue(new Callback<GEModel>() {
             @Override
             public void onResponse(Call<GEModel> call, Response<GEModel> response) {
                 assert response.body() != null;
-                Log.d(TAG, "onResponse: " + response.body().getItem().getId());
+                //Log.d(TAG, "onResponse: " + response.body().getItem().getId());
                 Picasso.get().load(response.body().getItem().getIcon()).into(imageView);
             }
 
