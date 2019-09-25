@@ -1,23 +1,33 @@
 package org.pursuit.osrshelper.network;
 
 public class GEModel {
-    private GEItems item;
+    public GEItems item;
+    public PriceToday today;
+    public String members;
 
-    public GEItems getItem() {
-        return item;
-    }
 
     public class GEItems {
-        private String icon;
-        private int id;
+        public Current current;
+        public String icon;
+        public String icon_large;
+        public int id;
+        public String type;
+        public String typeIcon;
+        public String name;
+        public String description;
 
-        public String getIcon() {
-            return icon;
+        public class Current {
+            public String trend;
+            public String price;
+
         }
 
-        public int getId() {
-            return id;
-        }
+
+    }
+
+    public class PriceToday {
+        public String trend;
+        public float price;
     }
 
 }

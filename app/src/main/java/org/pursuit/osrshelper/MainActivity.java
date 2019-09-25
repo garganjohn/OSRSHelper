@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -25,15 +27,14 @@ public class MainActivity extends AppCompatActivity {
     private Button testBtn;
     private EditText itemInput;
     private String itemToBeSearched;
+    private TextView itemName;
+    private TextView currentPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        imageView = findViewById(R.id.whip_pic);
-        testBtn = findViewById(R.id.test_btn);
-        itemInput = findViewById(R.id.item_input);
-
+        initViews();
 
         testBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    public void makeCall(String query){
+
+    public void makeCall(String query) {
         Retrofit retrofit = GESingleton.getINSTANCE();
         Call<GEModel> call = retrofit.create(GEService.class).getWhip(query);
         Log.d(TAG, "onCreate: " + call.request());
@@ -52,8 +54,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<GEModel> call, Response<GEModel> response) {
                 assert response.body() != null;
-                //Log.d(TAG, "onResponse: " + response.body().getItem().getId());
-                Picasso.get().load(response.body().getItem().getIcon()).into(imageView);
+
+                try {
+                    Picasso.get().load(response.body().item.icon_large).into(imageView);
+                    itemName.setText(response.body().item.name);
+                    currentPrice.setText(response.body().item.current.price);
+
+                } catch (NullPointerException npe) {
+                    Toast.makeText(MainActivity.this, "Enter a valid id", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -61,5 +70,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    void initViews() {
+        imageView = findViewById(R.id.whip_pic);
+        testBtn = findViewById(R.id.test_btn);
+        itemInput = findViewById(R.id.item_input);
+        itemName = findViewById(R.id.item_name);
+        currentPrice = findViewById(R.id.current_price);
     }
 }
