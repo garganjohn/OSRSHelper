@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-        makeCall();
 
 //        testBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -71,8 +70,9 @@ public class MainActivity extends AppCompatActivity {
     void initViews() {
         RecyclerView geRecyclerView = findViewById(R.id.ge_recyclerview);
         geRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        geRecyclerView.setAdapter(new GEAdapter(new ArrayList<GEModel>()));
+        geRecyclerView.setAdapter(geAdapter = new GEAdapter(new ArrayList<GEModel>()));
         testBtn = findViewById(R.id.test_btn);
         itemInput = findViewById(R.id.item_input);
+        makeCall();
     }
 }
