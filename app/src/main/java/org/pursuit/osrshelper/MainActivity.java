@@ -2,14 +2,20 @@ package org.pursuit.osrshelper;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.pursuit.osrshelper.ge_recyclerview.GEAdapter;
 import org.pursuit.osrshelper.network.GEModel;
 import org.pursuit.osrshelper.network.GEService;
 import org.pursuit.osrshelper.network.GESingleton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private Button testBtn;
     private EditText itemInput;
     private String itemToBeSearched;
+    private List<GEModel> geModels;
+    private GEAdapter geAdapter;
 
 
     @Override
@@ -42,24 +50,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void makeCall() {
         Retrofit retrofit = GESingleton.getINSTANCE();
-        Call<GEModel> call = retrofit.create(GEService.class).getSearch("a", 1);
+        Call<List<GEModel>> call = retrofit.create(GEService.class).getSearch("a", 1);
         Log.d(TAG, "onCreate: " + call.request());
-        call.enqueue(new Callback<GEModel>() {
+        call.enqueue(new Callback<List<GEModel>>() {
             @Override
-            public void onResponse(Call<GEModel> call, Response<GEModel> response) {
-                assert response.body() != null;
-                Log.d(TAG, "onResponse: " + response.body());
-
+            public void onResponse(Call<List<GEModel>> call, Response<List<GEModel>> response) {
+                geModels = response.body();
+                geAdapter.setData(geModels);
+                Log.d(TAG, "onResponse: " + geModels);
             }
 
             @Override
-            public void onFailure(Call<GEModel> call, Throwable t) {
-                Log.d(TAG, "onFailure: " + t.getMessage());
+            public void onFailure(Call<List<GEModel>> call, Throwable t) {
+                t.printStackTrace();
             }
         });
     }
 
     void initViews() {
+        RecyclerView geRecyclerView = findViewById(R.id.ge_recyclerview);
+        geRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        geRecyclerView.setAdapter(new GEAdapter(new ArrayList<GEModel>()));
         testBtn = findViewById(R.id.test_btn);
         itemInput = findViewById(R.id.item_input);
     }

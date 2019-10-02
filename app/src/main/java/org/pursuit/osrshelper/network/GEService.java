@@ -1,5 +1,7 @@
 package org.pursuit.osrshelper.network;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -13,6 +15,6 @@ public interface GEService {
     Call<GEModel> getItem(@Query("item") String... itemID);
 
     @GET(SEARCH)
-    Call<GEModel> getSearch(@Query("alpha") String alpha, @Query("page") int pageNum);
+    Call<List<GEModel>> getSearch(@Query("alpha") String alpha, @Query("page") int pageNum);
 
 }
