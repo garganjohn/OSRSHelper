@@ -23,12 +23,10 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "ur it";
-    private ImageView imageView;
     private Button testBtn;
     private EditText itemInput;
     private String itemToBeSearched;
-    private TextView itemName;
-    private TextView currentPrice;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +53,6 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<GEModel> call, Response<GEModel> response) {
                 assert response.body() != null;
 
-                try {
-                    Picasso.get().load(response.body().item.icon_large).into(imageView);
-                    itemName.setText(response.body().item.name);
-                    currentPrice.setText(response.body().item.current.price);
-
-                } catch (NullPointerException npe) {
-                    Toast.makeText(MainActivity.this, "Enter a valid id", Toast.LENGTH_SHORT).show();
-                }
             }
 
             @Override
@@ -73,10 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void initViews() {
-        imageView = findViewById(R.id.whip_pic);
         testBtn = findViewById(R.id.test_btn);
         itemInput = findViewById(R.id.item_input);
-        itemName = findViewById(R.id.item_name);
-        currentPrice = findViewById(R.id.current_price);
     }
 }
