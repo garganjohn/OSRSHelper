@@ -3,6 +3,7 @@ package org.pursuit.osrshelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     void initViews() {
         RecyclerView geRecyclerView = findViewById(R.id.ge_recyclerview);
-        geRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        geRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         geRecyclerView.setAdapter(new GEAdapter(new ArrayList<GEModel>()));
         testBtn = findViewById(R.id.test_btn);
         itemInput = findViewById(R.id.item_input);
