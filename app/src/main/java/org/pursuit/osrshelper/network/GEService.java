@@ -15,6 +15,6 @@ public interface GEService {
     Call<GEModel> getItem(@Query("item") String... itemID);
 
     @GET(SEARCH)
-    Call<List<GEModel>> getSearch(@Query("alpha") String alpha, @Query("page") int pageNum);
+    Call<GEModels> getSearch(@Query("alpha") String alpha, @Query("page") int pageNum);
 
 }

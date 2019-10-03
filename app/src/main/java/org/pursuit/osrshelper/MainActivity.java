@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import org.pursuit.osrshelper.ge_recyclerview.GEAdapter;
 import org.pursuit.osrshelper.network.GEModel;
+import org.pursuit.osrshelper.network.GEModels;
 import org.pursuit.osrshelper.network.GEService;
 import org.pursuit.osrshelper.network.GESingleton;
 
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+        makeDynamicCall();
+
 
 //        testBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -48,20 +51,37 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void makeCall() {
+//    public void makeCall() {
+//        Retrofit retrofit = GESingleton.getINSTANCE();
+//        Call<List<GEModel>> call = retrofit.create(GEService.class).getSearch("a", 1);
+//        Log.d(TAG, "onCreate: " + call.request());
+//        call.enqueue(new Callback<List<GEModel>>() {
+//            @Override
+//            public void onResponse(Call<List<GEModel>> call, Response<List<GEModel>> response) {
+//                geModels = response.body();
+//                geAdapter.setData(geModels);
+//                Log.d(TAG, "onResponse: " + geModels);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<GEModel>> call, Throwable t) {
+//                t.printStackTrace();
+//            }
+//        });
+//    }
+
+    public void makeDynamicCall() {
         Retrofit retrofit = GESingleton.getINSTANCE();
-        Call<List<GEModel>> call = retrofit.create(GEService.class).getSearch("a", 1);
-        Log.d(TAG, "onCreate: " + call.request());
-        call.enqueue(new Callback<List<GEModel>>() {
+        Call<GEModels> call = retrofit.create(GEService.class).getSearch("a", 1);
+        call.enqueue(new Callback<GEModels>() {
             @Override
-            public void onResponse(Call<List<GEModel>> call, Response<List<GEModel>> response) {
-                geModels = response.body();
-                geAdapter.setData(geModels);
-                Log.d(TAG, "onResponse: " + geModels);
+            public void onResponse(Call<GEModels> call, Response<GEModels> response) {
+                Log.d(TAG, "onResponse: " + response.body().items);
+                geAdapter.setData(response.body().items);
             }
 
             @Override
-            public void onFailure(Call<List<GEModel>> call, Throwable t) {
+            public void onFailure(Call<GEModels> call, Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -70,9 +90,8 @@ public class MainActivity extends AppCompatActivity {
     void initViews() {
         RecyclerView geRecyclerView = findViewById(R.id.ge_recyclerview);
         geRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        geRecyclerView.setAdapter(geAdapter = new GEAdapter(new ArrayList<GEModel>()));
+        geRecyclerView.setAdapter(geAdapter = new GEAdapter(new ArrayList<GEModels.GEItems>()));
         testBtn = findViewById(R.id.test_btn);
         itemInput = findViewById(R.id.item_input);
-        makeCall();
     }
 }

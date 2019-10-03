@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 
 import org.pursuit.osrshelper.R;
 import org.pursuit.osrshelper.network.GEModel;
+import org.pursuit.osrshelper.network.GEModels;
 
 import java.util.List;
 
 public class GEAdapter extends RecyclerView.Adapter<GEViewHolder> {
-    private List<GEModel> geModels;
+    private List<GEModels.GEItems> geModels;
 
-    public GEAdapter(List<GEModel> geModels) {
+    public GEAdapter(List<GEModels.GEItems> geModels) {
         this.geModels = geModels;
     }
 
@@ -34,7 +35,7 @@ public class GEAdapter extends RecyclerView.Adapter<GEViewHolder> {
     public int getItemCount() {
         return geModels.size();
     }
-    public void setData(List<GEModel> geModels){
+    public void setData(List<GEModels.GEItems> geModels){
         this.geModels = geModels;
         notifyDataSetChanged();
     }
