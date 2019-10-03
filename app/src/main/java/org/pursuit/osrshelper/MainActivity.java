@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     void initViews() {
         RecyclerView geRecyclerView = findViewById(R.id.ge_recyclerview);
         geRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        geRecyclerView.setAdapter(geAdapter = new GEAdapter(new ArrayList<GEModels.GEItems>()));
+        geRecyclerView.setAdapter(geAdapter = new GEAdapter(new ArrayList<>()));
         testBtn = findViewById(R.id.test_btn);
         itemInput = findViewById(R.id.item_input);
     }
