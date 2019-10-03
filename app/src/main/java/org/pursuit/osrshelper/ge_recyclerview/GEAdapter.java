@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.pursuit.osrshelper.R;
-import org.pursuit.osrshelper.network.GEModel;
 import org.pursuit.osrshelper.network.GEModels;
 
 import java.util.List;
