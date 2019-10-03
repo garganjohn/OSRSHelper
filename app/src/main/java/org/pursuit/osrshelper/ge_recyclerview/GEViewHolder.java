@@ -15,15 +15,18 @@ import org.pursuit.osrshelper.network.GEModels;
 public class GEViewHolder extends RecyclerView.ViewHolder {
     private TextView itemName;
     private ImageView itemImage;
+    private TextView itemCurrentPrice;
 
     public GEViewHolder(@NonNull View itemView) {
         super(itemView);
         itemImage = itemView.findViewById(R.id.item_img);
         itemName = itemView.findViewById(R.id.item_name);
+        itemCurrentPrice = itemView.findViewById(R.id.current_price);
     }
-    void onBind(GEModels.GEItems geModel){
-//        Picasso.get().load(geModel.item.icon_large).into(itemImage);
-////        itemName.setText(geModel.item.name);
+
+    void onBind(GEModels.GEItems geModel) {
+        Picasso.get().load(geModel.icon_large).into(itemImage);
         itemName.setText(geModel.name);
+        itemCurrentPrice.setText(geModel.current.price);
     }
 }
