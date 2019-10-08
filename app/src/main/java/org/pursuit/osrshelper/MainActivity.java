@@ -2,11 +2,9 @@ package org.pursuit.osrshelper;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -91,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView geRecyclerView = findViewById(R.id.ge_recyclerview);
         geRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         geRecyclerView.setAdapter(geAdapter = new GEAdapter(new ArrayList<>()));
-        testBtn = findViewById(R.id.test_btn);
+        testBtn = findViewById(R.id.search_button);
         itemInput = findViewById(R.id.item_input);
     }
 }

@@ -38,13 +38,10 @@ public class GEViewHolder extends RecyclerView.ViewHolder {
         itemName.setText(geModel.name);
         itemCurrentPrice.setText(geModel.current.price);
         itemDesc.setText(geModel.description);
-        container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(itemView.getContext(), DisplayItemActivity.class);
-                intent.putExtra(ITEM_ID, geModel.id);
-                itemView.getContext().startActivity(intent);
-            }
+        container.setOnClickListener(v -> {
+            Intent intent = new Intent(itemView.getContext(), DisplayItemActivity.class);
+            intent.putExtra(ITEM_ID, geModel.id);
+            itemView.getContext().startActivity(intent);
         });
     }
 }
