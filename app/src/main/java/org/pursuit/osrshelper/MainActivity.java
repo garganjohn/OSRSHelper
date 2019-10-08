@@ -1,19 +1,25 @@
 package org.pursuit.osrshelper;
 
+import android.content.Context;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import org.pursuit.osrshelper.ge_recyclerview.GEAdapter;
+import org.pursuit.osrshelper.item_search.SearchHelper;
 import org.pursuit.osrshelper.network.GEModel;
 import org.pursuit.osrshelper.network.GEModels;
 import org.pursuit.osrshelper.network.GEService;
 import org.pursuit.osrshelper.network.GESingleton;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private Button testBtn;
     private EditText itemInput;
     private String itemToBeSearched;
-    private List<GEModel> geModels;
     private GEAdapter geAdapter;
 
 
@@ -38,35 +43,27 @@ public class MainActivity extends AppCompatActivity {
         initViews();
         makeDynamicCall();
 
+        Handler handler = new Handler();
+        final Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                testBtn.setOnClickListener(v -> {
+                    itemToBeSearched = itemInput.getText().toString();
+                    SearchHelper searchHelper = new SearchHelper(MainActivity.this, itemToBeSearched);
+                    //makeCall(itemToBeSearched);
+                    Log.d(TAG, "onCreate: " + searchHelper.userQuery());
+                    handler.postDelayed(this, 3000);
+                });
+            }
 
-//        testBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                itemToBeSearched = itemInput.getText().toString();
-//                makeCall();
-//            }
-//        });
+        };
+        handler.postDelayed(r, 3000);
 
     }
 
-//    public void makeCall() {
-//        Retrofit retrofit = GESingleton.getINSTANCE();
-//        Call<List<GEModel>> call = retrofit.create(GEService.class).getSearch("a", 1);
-//        Log.d(TAG, "onCreate: " + call.request());
-//        call.enqueue(new Callback<List<GEModel>>() {
-//            @Override
-//            public void onResponse(Call<List<GEModel>> call, Response<List<GEModel>> response) {
-//                geModels = response.body();
-//                geAdapter.setData(geModels);
-//                Log.d(TAG, "onResponse: " + geModels);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<GEModel>> call, Throwable t) {
-//                t.printStackTrace();
-//            }
-//        });
-//    }
+    public void makeCall(String itemName) {
+        Retrofit retrofit = GESingleton.getINSTANCE();
+    }
 
     public void makeDynamicCall() {
         Retrofit retrofit = GESingleton.getINSTANCE();
