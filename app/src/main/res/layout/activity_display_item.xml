@@ -7,10 +7,24 @@
     tools:context=".DisplayItemActivity">
 
     <TextView
-        android:id="@+id/display_activity_tv"
+        android:id="@+id/item_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="THIS IS THE DISPLAY ACTIVITY"
-        android:textSize="50sp" />
+        android:gravity="center"
+        android:text="THIS IS THE DISPLAY ACTIVITY ITEM NAME"
+        android:textSize="50sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/current_price_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:text="DISPLAY ACTIVITY ITEM PRICE"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_name_tv" />
 </android.support.constraint.ConstraintLayout>

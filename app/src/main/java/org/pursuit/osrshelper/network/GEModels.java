@@ -2,16 +2,17 @@ package org.pursuit.osrshelper.network;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GEModels {
+public class GEModels implements Serializable {
     public int total;
     public List<GEItems> items;
 
     @SerializedName("item")
     public GEItems item;
 
-    public class GEItems {
+    public class GEItems implements Serializable {
         public Current current;
         public Today today;
 
@@ -24,12 +25,12 @@ public class GEModels {
         public String description;
 
 
-        public class Current {
+        public class Current implements Serializable {
             public String trend;
             public String price;
         }
 
-        public class Today {
+        public class Today implements Serializable {
             public String trend;
             public String price;
         }

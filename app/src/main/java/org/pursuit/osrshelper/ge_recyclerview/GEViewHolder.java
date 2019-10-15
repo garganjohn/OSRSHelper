@@ -1,6 +1,7 @@
 package org.pursuit.osrshelper.ge_recyclerview;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +16,7 @@ import org.pursuit.osrshelper.R;
 import org.pursuit.osrshelper.network.GEModels;
 
 public class GEViewHolder extends RecyclerView.ViewHolder {
-    public static final String ITEM_ID = "ITEM TO BE DISPLAYED";
+    public static final String ITEM = "ITEM TO BE DISPLAYED";
     private CardView container;
     private TextView itemName;
     private ImageView itemImage;
@@ -40,7 +41,7 @@ public class GEViewHolder extends RecyclerView.ViewHolder {
         itemDesc.setText(geModel.description);
         container.setOnClickListener(v -> {
             Intent intent = new Intent(itemView.getContext(), DisplayItemActivity.class);
-            intent.putExtra(ITEM_ID, geModel.id);
+            intent.putExtra(ITEM, geModel);
             itemView.getContext().startActivity(intent);
         });
     }
