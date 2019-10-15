@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.pursuit.osrshelper.ge_recyclerview.GEAdapter;
 import org.pursuit.osrshelper.item_search.SearchHelper;
@@ -37,51 +38,55 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initViews();
         makeDynamicCall();
-        initSearchButton();
+
+        testBtn.setOnClickListener(v -> {
+            itemToBeSearched = itemInput.getText().toString();
+            SearchHelper searchHelper = new SearchHelper(MainActivity.this, itemToBeSearched);
+            Log.d(TAG, "onCreate: " + searchHelper.userQuery());
+            makeQueryCall(searchHelper.userQuery());
+        });
     }
 
-    private void initSearchButton() {
-        Handler handler = new Handler();
-        final Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                testBtn.setOnClickListener(v -> {
-                    itemToBeSearched = itemInput.getText().toString();
-                    SearchHelper searchHelper = new SearchHelper(MainActivity.this, itemToBeSearched);
-                    Log.d(TAG, "onCreate: " + searchHelper.userQuery());
-                    makeQueryCall(searchHelper.userQuery());
-                    handler.postDelayed(this, 3000);
-                });
-            }
-
-        };
-        handler.postDelayed(r, 3000);
-    }
+//    private void initSearchButton() {
+//        Handler handler = new Handler();
+//        final Runnable r = new Runnable() {
+//            @Override
+//            public void run() {
+//
+//                    handler.postDelayed(this, 3000);
+//                });
+//            }
+//
+//        };
+//        handler.postDelayed(r, 3000);
+//    }
 
 
     public void makeQueryCall(List<Integer> queryResult) {
         List<GEModels.GEItems> itemsToBeDisplayed = new ArrayList<>();
         Retrofit retrofit = GESingleton.getINSTANCE();
+        if (queryResult != null) {
+            for (int i = 0; i < queryResult.size(); i++) {
+                Call<GEModels> call = retrofit.create(GEService.class).getItem(queryResult.get(i).toString());
+                Log.d(TAG, "makeQueryCall: " + call.request());
 
+                call.enqueue(new Callback<GEModels>() {
+                    @Override
+                    public void onResponse(Call<GEModels> call, Response<GEModels> response) {
+                        Log.d(TAG, "makeQueryCall: " + response.body().item.name);
+                        itemsToBeDisplayed.add(response.body().item);
+                    }
 
-        for (int i = 0; i < queryResult.size(); i++) {
-            Call<GEModels> call = retrofit.create(GEService.class).getItem(queryResult.get(i).toString());
-            Log.d(TAG, "makeQueryCall: " + call.request());
-
-            call.enqueue(new Callback<GEModels>() {
-                @Override
-                public void onResponse(Call<GEModels> call, Response<GEModels> response) {
-                    Log.d(TAG, "makeQueryCall: " + response.body().item.name);
-                    itemsToBeDisplayed.add(response.body().item);
-                }
-
-                @Override
-                public void onFailure(Call<GEModels> call, Throwable t) {
-                    t.printStackTrace();
-                }
-            });
+                    @Override
+                    public void onFailure(Call<GEModels> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            }
+            geAdapter.setData(itemsToBeDisplayed);
+        } else {
+            Toast.makeText(this, "queryResult is null", Toast.LENGTH_SHORT).show();
         }
-        geAdapter.setData(itemsToBeDisplayed);
     }
 
     public void makeDynamicCall() {

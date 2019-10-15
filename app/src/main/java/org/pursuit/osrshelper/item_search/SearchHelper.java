@@ -28,7 +28,7 @@ public class SearchHelper {
     private String loadItemsFromAssets(Context context) {
         String json = null;
         try {
-            InputStream is = context.getApplicationContext().getAssets().open("testitems.json");
+            InputStream is = context.getApplicationContext().getAssets().open("allitems.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -46,12 +46,14 @@ public class SearchHelper {
 
         try {
             JSONObject jsonObject = new JSONObject(loadItemsFromAssets(context));
-            JSONArray itemArr = jsonObject.getJSONArray("testitems");
+            JSONArray itemArr = jsonObject.getJSONArray("allitems");
 
             for (int i = 0; i < itemArr.length(); i++) {
                 JSONObject insideObj = itemArr.getJSONObject(i);
-                if (insideObj.getString("name").toUpperCase().contains(itemToBeSearched.toUpperCase())) {
-                    potentialItems.add(insideObj.getInt("id"));
+                if (insideObj.has("name")) {
+                    if (insideObj.getString("name").toUpperCase().contains(itemToBeSearched.toUpperCase())) {
+                        potentialItems.add(insideObj.getInt("id"));
+                    }
                 }
 
             }
