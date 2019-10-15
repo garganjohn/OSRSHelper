@@ -15,6 +15,7 @@ import org.pursuit.osrshelper.R;
 import org.pursuit.osrshelper.network.GEModels;
 
 public class GEViewHolder extends RecyclerView.ViewHolder {
+    public static final String ITEM_ID = "ITEM TO BE DISPLAYED";
     private CardView container;
     private TextView itemName;
     private ImageView itemImage;
@@ -28,10 +29,8 @@ public class GEViewHolder extends RecyclerView.ViewHolder {
         itemCurrentPrice = itemView.findViewById(R.id.current_price);
         itemDesc = itemView.findViewById(R.id.item_description);
         container = itemView.findViewById(R.id.ge_cardview);
-        container.setOnClickListener(v -> {
-            Intent intent = new Intent(itemView.getContext(), DisplayItemActivity.class);
-            itemView.getContext().startActivity(intent);
-        });
+
+
     }
 
     void onBind(GEModels.GEItems geModel) {
@@ -39,5 +38,10 @@ public class GEViewHolder extends RecyclerView.ViewHolder {
         itemName.setText(geModel.name);
         itemCurrentPrice.setText(geModel.current.price);
         itemDesc.setText(geModel.description);
+        container.setOnClickListener(v -> {
+            Intent intent = new Intent(itemView.getContext(), DisplayItemActivity.class);
+            intent.putExtra(ITEM_ID, geModel.id);
+            itemView.getContext().startActivity(intent);
+        });
     }
 }

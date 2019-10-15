@@ -1,17 +1,17 @@
 package org.pursuit.osrshelper;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.pursuit.osrshelper.ge_recyclerview.GEAdapter;
-import org.pursuit.osrshelper.network.GEModel;
+import org.pursuit.osrshelper.item_search.SearchHelper;
 import org.pursuit.osrshelper.network.GEModels;
 import org.pursuit.osrshelper.network.GEService;
 import org.pursuit.osrshelper.network.GESingleton;
@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private Button testBtn;
     private EditText itemInput;
     private String itemToBeSearched;
-    private List<GEModel> geModels;
     private GEAdapter geAdapter;
 
 
@@ -40,35 +39,55 @@ public class MainActivity extends AppCompatActivity {
         initViews();
         makeDynamicCall();
 
-
-//        testBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                itemToBeSearched = itemInput.getText().toString();
-//                makeCall();
-//            }
-//        });
-
+        testBtn.setOnClickListener(v -> {
+            itemToBeSearched = itemInput.getText().toString();
+            SearchHelper searchHelper = new SearchHelper(MainActivity.this, itemToBeSearched);
+            Log.d(TAG, "onCreate: " + searchHelper.userQuery());
+            makeQueryCall(searchHelper.userQuery());
+        });
     }
 
-//    public void makeCall() {
-//        Retrofit retrofit = GESingleton.getINSTANCE();
-//        Call<List<GEModel>> call = retrofit.create(GEService.class).getSearch("a", 1);
-//        Log.d(TAG, "onCreate: " + call.request());
-//        call.enqueue(new Callback<List<GEModel>>() {
+//    private void initSearchButton() {
+//        Handler handler = new Handler();
+//        final Runnable r = new Runnable() {
 //            @Override
-//            public void onResponse(Call<List<GEModel>> call, Response<List<GEModel>> response) {
-//                geModels = response.body();
-//                geAdapter.setData(geModels);
-//                Log.d(TAG, "onResponse: " + geModels);
+//            public void run() {
+//
+//                    handler.postDelayed(this, 3000);
+//                });
 //            }
 //
-//            @Override
-//            public void onFailure(Call<List<GEModel>> call, Throwable t) {
-//                t.printStackTrace();
-//            }
-//        });
+//        };
+//        handler.postDelayed(r, 3000);
 //    }
+
+
+    public void makeQueryCall(List<Integer> queryResult) {
+        List<GEModels.GEItems> itemsToBeDisplayed = new ArrayList<>();
+        Retrofit retrofit = GESingleton.getINSTANCE();
+        if (queryResult != null) {
+            for (int i = 0; i < queryResult.size(); i++) {
+                Call<GEModels> call = retrofit.create(GEService.class).getItem(queryResult.get(i).toString());
+                Log.d(TAG, "makeQueryCall: " + call.request());
+
+                call.enqueue(new Callback<GEModels>() {
+                    @Override
+                    public void onResponse(Call<GEModels> call, Response<GEModels> response) {
+                        Log.d(TAG, "makeQueryCall: " + response.body().item.name);
+                        itemsToBeDisplayed.add(response.body().item);
+                    }
+
+                    @Override
+                    public void onFailure(Call<GEModels> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            }
+            geAdapter.setData(itemsToBeDisplayed);
+        } else {
+            Toast.makeText(this, "queryResult is null", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public void makeDynamicCall() {
         Retrofit retrofit = GESingleton.getINSTANCE();
@@ -90,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
     void initViews() {
         RecyclerView geRecyclerView = findViewById(R.id.ge_recyclerview);
         geRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        geRecyclerView.setAdapter(geAdapter = new GEAdapter(new ArrayList<GEModels.GEItems>()));
-        testBtn = findViewById(R.id.test_btn);
+        geRecyclerView.setAdapter(geAdapter = new GEAdapter(new ArrayList<>()));
+        testBtn = findViewById(R.id.search_button);
         itemInput = findViewById(R.id.item_input);
     }
 }

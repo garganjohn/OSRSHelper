@@ -1,0 +1,96 @@
+{
+  "testitems": [
+    {
+      "id": 2,
+      "name": "Cannonball"
+    },
+    {
+      "id": 6,
+      "name": "Cannon base"
+    },
+    {
+      "id": 8,
+      "name": "Cannon stand"
+    },
+    {
+      "id": 10,
+      "name": "Cannon barrels"
+    },
+    {
+      "id": 12,
+      "name": "Cannon furnace"
+    },
+    {
+      "id": 28,
+      "name": "Insect repellent"
+    },
+    {
+      "id": 30,
+      "name": "Bucket of wax"
+    },
+    {
+      "id": 36,
+      "name": "Candle"
+    },
+    {
+      "id": 39,
+      "name": "Bronze arrowtips"
+    },
+    {
+      "id": 40,
+      "name": "Iron arrowtips"
+    },
+    {
+      "id": 41,
+      "name": "Steel arrowtips"
+    },
+    {
+      "id": 42,
+      "name": "Mithril arrowtips"
+    },
+    {
+      "id": 43,
+      "name": "Adamant arrowtips"
+    },
+    {
+      "id": 44,
+      "name": "Rune arrowtips"
+    },
+    {
+      "id": 45,
+      "name": "Opal bolt tips"
+    },
+    {
+      "id": 46,
+      "name": "Pearl bolt tips"
+    },
+    {
+      "id": 47,
+      "name": "Barb bolttips"
+    },
+    {
+      "id": 48,
+      "name": "Longbow (u)"
+    },
+    {
+      "id": 50,
+      "name": "Shortbow (u)"
+    },
+    {
+      "id": 52,
+      "name": "Arrow shaft"
+    },
+    {
+      "id": 53,
+      "name": "Headless arrow"
+    },
+    {
+      "id": 54,
+      "name": "Oak shortbow (u)"
+    },
+    {
+      "id": 56,
+      "name": "Oak longbow (u)"
+    }
+  ]
+}

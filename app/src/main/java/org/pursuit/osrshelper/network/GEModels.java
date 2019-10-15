@@ -1,10 +1,15 @@
 package org.pursuit.osrshelper.network;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class GEModels {
     public int total;
     public List<GEItems> items;
+
+    @SerializedName("item")
+    public GEItems item;
 
     public class GEItems {
         public Current current;
