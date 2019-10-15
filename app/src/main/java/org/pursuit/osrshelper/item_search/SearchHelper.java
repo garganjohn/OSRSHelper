@@ -41,7 +41,6 @@ public class SearchHelper {
         return json;
     }
 
-    //TODO query is returning null list for potentialItems
     public List<Integer> userQuery() {
         List<Integer> potentialItems = new ArrayList<>();
 
@@ -51,7 +50,7 @@ public class SearchHelper {
 
             for (int i = 0; i < itemArr.length(); i++) {
                 JSONObject insideObj = itemArr.getJSONObject(i);
-                if (insideObj.getString("name").contains(itemToBeSearched)) {
+                if (insideObj.getString("name").toUpperCase().contains(itemToBeSearched.toUpperCase())) {
                     potentialItems.add(insideObj.getInt("id"));
                 }
 
@@ -63,31 +62,6 @@ public class SearchHelper {
         }
         return potentialItems;
     }
-//    public List<Integer> userQuery() {
-//        List<Integer> potentialItems = new ArrayList<>();
-//
-//
-//        String jsonLocation = loadItemsFromAssets(context);
-//        JSONObject jsonobject = new JSONObject(jsonLocation);
-//        JSONArray jarray = (JSONArray) jsonobject.getJSONArray("allitems");
-//        for (int i = 0; i < jarray.length(); i++) {
-//            JSONObject jb = (JSONObject) jarray.get(i);
-//            String formula = jb.getString("formule");
-//            String url = jb.getString("url");
-//        }
-//    } catch(
-//    IOException e)
-//
-//    {
-//        e.printStackTrace();
-//    } catch(
-//    JSONException e)
-//
-//    {
-//        e.printStackTrace();
-//    }
-//
-//        return potentialItems;
-//}
+
 
 }

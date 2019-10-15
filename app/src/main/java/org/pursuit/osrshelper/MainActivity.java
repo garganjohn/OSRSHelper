@@ -1,25 +1,20 @@
 package org.pursuit.osrshelper;
 
-import android.content.Context;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import org.pursuit.osrshelper.ge_recyclerview.GEAdapter;
 import org.pursuit.osrshelper.item_search.SearchHelper;
-import org.pursuit.osrshelper.network.GEModel;
 import org.pursuit.osrshelper.network.GEModels;
 import org.pursuit.osrshelper.network.GEService;
 import org.pursuit.osrshelper.network.GESingleton;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +37,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initViews();
         makeDynamicCall();
+        initSearchButton();
+    }
 
+    private void initSearchButton() {
         Handler handler = new Handler();
         final Runnable r = new Runnable() {
             @Override
@@ -50,19 +48,40 @@ public class MainActivity extends AppCompatActivity {
                 testBtn.setOnClickListener(v -> {
                     itemToBeSearched = itemInput.getText().toString();
                     SearchHelper searchHelper = new SearchHelper(MainActivity.this, itemToBeSearched);
-                    //makeCall(itemToBeSearched);
                     Log.d(TAG, "onCreate: " + searchHelper.userQuery());
+                    makeQueryCall(searchHelper.userQuery());
                     handler.postDelayed(this, 3000);
                 });
             }
 
         };
         handler.postDelayed(r, 3000);
-
     }
 
-    public void makeCall(String itemName) {
+
+    public void makeQueryCall(List<Integer> queryResult) {
+        List<GEModels.GEItems> itemsToBeDisplayed = new ArrayList<>();
         Retrofit retrofit = GESingleton.getINSTANCE();
+
+
+        for (int i = 0; i < queryResult.size(); i++) {
+            Call<GEModels> call = retrofit.create(GEService.class).getItem(queryResult.get(i).toString());
+            Log.d(TAG, "makeQueryCall: " + call.request());
+
+            call.enqueue(new Callback<GEModels>() {
+                @Override
+                public void onResponse(Call<GEModels> call, Response<GEModels> response) {
+                    Log.d(TAG, "makeQueryCall: " + response.body().item.name);
+                    itemsToBeDisplayed.add(response.body().item);
+                }
+
+                @Override
+                public void onFailure(Call<GEModels> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }
+        geAdapter.setData(itemsToBeDisplayed);
     }
 
     public void makeDynamicCall() {

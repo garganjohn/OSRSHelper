@@ -34,7 +34,8 @@ public class GEAdapter extends RecyclerView.Adapter<GEViewHolder> {
     public int getItemCount() {
         return geModels.size();
     }
-    public void setData(List<GEModels.GEItems> geModels){
+
+    public void setData(List<GEModels.GEItems> geModels) {
         this.geModels = geModels;
         notifyDataSetChanged();
     }

@@ -12,7 +12,7 @@ public interface GEService {
     String SEARCH = "api/catalogue/items.json?category=1";
 
     @GET(PATH)
-    Call<GEModel> getItem(@Query("item") String... itemID);
+    Call<GEModels> getItem(@Query("item") String... itemID);
 
     @GET(SEARCH)
     Call<GEModels> getSearch(@Query("alpha") String alpha, @Query("page") int pageNum);
