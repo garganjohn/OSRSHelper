@@ -30,6 +30,8 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation "io.reactivex.rxjava3:rxjava:3.0.0-RC3"
+    implementation 'com.jakewharton.rxbinding3:rxbinding:3.0.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'

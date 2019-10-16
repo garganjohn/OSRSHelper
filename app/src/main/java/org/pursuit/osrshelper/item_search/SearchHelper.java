@@ -18,11 +18,12 @@ public class SearchHelper {
     public static final String TAG = "SearchHelper userQuery";
 
     private Context context;
-    private String itemToBeSearched;
+    //private String itemToBeSearched;
+    private JSONObject itemAssets;
 
-    public SearchHelper(Context context, String itemToBeSearched) {
+    public SearchHelper(Context context) {
         this.context = context;
-        this.itemToBeSearched = itemToBeSearched;
+       // this.itemToBeSearched = itemToBeSearched;
     }
 
     private String loadItemsFromAssets(Context context) {
@@ -41,12 +42,12 @@ public class SearchHelper {
         return json;
     }
 
-    public List<Integer> userQuery() {
+    public List<Integer> userQuery(String itemToBeSearched) {
         List<Integer> potentialItems = new ArrayList<>();
 
         try {
-            JSONObject jsonObject = new JSONObject(loadItemsFromAssets(context));
-            JSONArray itemArr = jsonObject.getJSONArray("allitems");
+            itemAssets = new JSONObject(loadItemsFromAssets(context));
+            JSONArray itemArr = itemAssets.getJSONArray("allitems");
 
             for (int i = 0; i < itemArr.length(); i++) {
                 JSONObject insideObj = itemArr.getJSONObject(i);
