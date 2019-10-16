@@ -1,12 +1,10 @@
 package org.pursuit.osrshelper.item_search;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.pursuit.osrshelper.network.GEModels;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,12 +16,10 @@ public class SearchHelper {
     public static final String TAG = "SearchHelper userQuery";
 
     private Context context;
-    //private String itemToBeSearched;
     private JSONObject itemAssets;
 
     public SearchHelper(Context context) {
         this.context = context;
-       // this.itemToBeSearched = itemToBeSearched;
     }
 
     private String loadItemsFromAssets(Context context) {
