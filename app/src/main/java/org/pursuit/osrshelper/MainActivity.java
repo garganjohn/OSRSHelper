@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 import org.pursuit.osrshelper.ge_recyclerview.GEAdapter;
@@ -39,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
             itemToBeSearched = itemInput.getText().toString();
             Log.d(TAG, "onCreate: " + searchHelper.userQuery(itemToBeSearched));
             makeQueryCall(searchHelper.userQuery(itemToBeSearched));
+            try {
+                InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            } catch (Exception e) {
+                // TODO: handle exception
+                Toast.makeText(this, "DEVw", Toast.LENGTH_SHORT).show();
+            }
         });
 
     }
