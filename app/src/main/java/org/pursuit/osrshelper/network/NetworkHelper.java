@@ -50,6 +50,7 @@ public class NetworkHelper {
             Toast.makeText(context, "queryResult is null", Toast.LENGTH_SHORT).show();
         }
     }
+
     public void makeDynamicCall() {
         Retrofit retrofit = GESingleton.getINSTANCE();
         Call<GEModels> call = retrofit.create(GEService.class).getSearch("a", 1);
